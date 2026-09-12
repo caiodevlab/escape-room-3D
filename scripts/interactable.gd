@@ -35,6 +35,9 @@ func _get_configuration_warnings() -> PackedStringArray:
 
 func can_interact(player: Node3D) -> bool:
 	## Verifica se o jogador está dentro da distância de interação
+	if player == null:
+		return false
+	
 	var player_pos = player.global_position
 	var my_pos = global_position
 	return player_pos.distance_to(my_pos) <= interaction_distance

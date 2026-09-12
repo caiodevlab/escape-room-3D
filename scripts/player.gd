@@ -31,16 +31,7 @@ func _ready() -> void:
 	if camera:
 		camera.position.y = 1.6
 	
-	# Configura RayCast3D se não estiver
-	if not raycast:
-		raycast = RayCast3D.new()
-		raycast.name = "RayCast3D"
-		camera.add_child(raycast)
-		raycast.enabled = true
-		raycast.target_position = Vector3(0, 0, -interaction_distance)
-		raycast.collision_mask = 1
-		raycast.collide_with_areas = false
-		raycast.collide_with_bodies = true
+	_configure_raycast()
 	
 	if interaction_prompt:
 		interaction_prompt.text = ""
@@ -84,7 +75,26 @@ func _physics_process(delta: float) -> void:
 	velocity.z = direction.z * speed
 	
 	move_and_slide()
+	_configure_raycast()
 	_update_focus()
+
+
+func _configure_raycast() -> void:
+	if not camera:
+		return
+	
+	if not raycast:
+		raycast = RayCast3D.new()
+		raycast.name = "RayCast3D"
+		camera.add_child(raycast)
+	
+	raycast.enabled = true
+	raycast.target_position = Vector3(0, 0, -interaction_distance)
+	raycast.collision_mask = 1
+	raycast.collide_with_areas = false
+	raycast.collide_with_bodies = true
+	raycast.exclude_parent = true
+	raycast.hit_from_inside = false
 
 
 func _update_focus() -> void:
@@ -97,7 +107,8 @@ func _update_focus() -> void:
 	
 	if raycast.is_colliding():
 		var collider = raycast.get_collider()
-		new_focused = _find_interactable(collider)
+		if collider != null and collider != self:
+			new_focused = _find_interactable(collider)
 	
 	if new_focused != current_focused:
 		if current_focused and current_focused.has_method("set_highlight"):
