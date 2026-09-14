@@ -1,26 +1,32 @@
-[gd_scene load_steps=10 format=3 uid="uid://dvjorwjfx81et"]
+[gd_scene load_steps=17 format=3 uid="uid://dvjorwjfx81et"]
 
 [ext_resource type="PackedScene" uid="uid://d1c2k3l4m5n6o7" path="res://scenes/player.tscn" id="1_player"]
 [ext_resource type="PackedScene" uid="uid://b1d2o3o4r5s6t7" path="res://scenes/door.tscn" id="2_door"]
 [ext_resource type="PackedScene" uid="uid://5g3s0bulja67" path="res://scenes/key_item.tscn" id="3_key"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_floor"]
-albedo_color = Color(0.85, 0.85, 0.82, 1)
+albedo_color = Color(0.82, 0.77, 0.68, 1)
+roughness = 0.9
 
-[sub_resource type="PlaneMesh" id="PlaneMesh_floor"]
-size = Vector2(20, 20)
+[sub_resource type="BoxMesh" id="BoxMesh_floor"]
+size = Vector3(20, 0.2, 20)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_floor"]
-size = Vector3(20, 0.1, 20)
+size = Vector3(20, 0.2, 20)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wall"]
-albedo_color = Color(0.17, 0.28, 0.45, 1)
+albedo_color = Color(0.91, 0.93, 0.96, 1)
+roughness = 0.7
 
 [sub_resource type="BoxMesh" id="BoxMesh_wall"]
 size = Vector3(20, 6, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_wall"]
 size = Vector3(20, 6, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_darkwood"]
+albedo_color = Color(0.38, 0.24, 0.16, 1)
+roughness = 0.8
 
 [sub_resource type="BoxMesh" id="BoxMesh_desk_teacher"]
 size = Vector3(3, 0.8, 1.2)
@@ -34,16 +40,29 @@ size = Vector3(2.5, 0.8, 1.2)
 [sub_resource type="BoxShape3D" id="BoxShape3D_desk_student"]
 size = Vector3(2.5, 0.8, 1.2)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_plant"]
+albedo_color = Color(0.08, 0.42, 0.18, 1)
+roughness = 0.8
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_pot"]
+height = 0.5
+top_radius = 0.3
+bottom_radius = 0.3
+
+[sub_resource type="SphereMesh" id="SphereMesh_plant"]
+radius = 0.42
+height = 0.9
+
 [node name="TestRoom" type="Node3D"]
 
 [node name="Floor" type="StaticBody3D" parent="."]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
 material_override = SubResource("StandardMaterial3D_floor")
-mesh = SubResource("PlaneMesh_floor")
+mesh = SubResource("BoxMesh_floor")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
 shape = SubResource("BoxShape3D_floor")
 
 [node name="WallFront" type="StaticBody3D" parent="."]
@@ -89,6 +108,7 @@ shape = SubResource("BoxShape3D_wall")
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, 0, 10, 0)
 shadow_enabled = true
+light_energy = 0.9
 
 [node name="Player" parent="." instance=ExtResource("1_player")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
@@ -103,12 +123,37 @@ challenge_question = "Qual é a soma de 2 + 2?"
 challenge_answer = "4"
 
 [node name="KeyItem" parent="." instance=ExtResource("3_key")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 3)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0.5, 3)
+
+[node name="PlantLeft" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.5, 0.2, 7)
+
+[node name="PotMesh" type="MeshInstance3D" parent="PlantLeft"]
+material_override = SubResource("StandardMaterial3D_darkwood")
+mesh = SubResource("CylinderMesh_pot")
+
+[node name="LeafMesh" type="MeshInstance3D" parent="PlantLeft"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.55, 0)
+material_override = SubResource("StandardMaterial3D_plant")
+mesh = SubResource("SphereMesh_plant")
+
+[node name="PlantRight" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.5, 0.2, 7)
+
+[node name="PotMesh" type="MeshInstance3D" parent="PlantRight"]
+material_override = SubResource("StandardMaterial3D_darkwood")
+mesh = SubResource("CylinderMesh_pot")
+
+[node name="LeafMesh" type="MeshInstance3D" parent="PlantRight"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.55, 0)
+material_override = SubResource("StandardMaterial3D_plant")
+mesh = SubResource("SphereMesh_plant")
 
 [node name="DeskTeacher" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -7)
 
 [node name="DeskMesh" type="MeshInstance3D" parent="DeskTeacher"]
+material_override = SubResource("StandardMaterial3D_darkwood")
 mesh = SubResource("BoxMesh_desk_teacher")
 
 [node name="DeskCollision" type="CollisionShape3D" parent="DeskTeacher"]
@@ -118,6 +163,7 @@ shape = SubResource("BoxShape3D_desk_teacher")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 1)
 
 [node name="DeskMesh" type="MeshInstance3D" parent="DeskStudent1"]
+material_override = SubResource("StandardMaterial3D_darkwood")
 mesh = SubResource("BoxMesh_desk_student")
 
 [node name="DeskCollision" type="CollisionShape3D" parent="DeskStudent1"]
@@ -127,6 +173,7 @@ shape = SubResource("BoxShape3D_desk_student")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
 
 [node name="DeskMesh" type="MeshInstance3D" parent="DeskStudent2"]
+material_override = SubResource("StandardMaterial3D_darkwood")
 mesh = SubResource("BoxMesh_desk_student")
 
 [node name="DeskCollision" type="CollisionShape3D" parent="DeskStudent2"]
@@ -136,6 +183,7 @@ shape = SubResource("BoxShape3D_desk_student")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 1)
 
 [node name="DeskMesh" type="MeshInstance3D" parent="DeskStudent3"]
+material_override = SubResource("StandardMaterial3D_darkwood")
 mesh = SubResource("BoxMesh_desk_student")
 
 [node name="DeskCollision" type="CollisionShape3D" parent="DeskStudent3"]
