@@ -10,10 +10,14 @@ signal interacted
 enum DoorState { CLOSED, OPEN, LOCKED, UNLOCKED }
 enum InteractionType { NONE, KEY, CHALLENGE, BOTH }
 
+@export var action_name: String = "Abrir"
+@export var interaction_distance: float = 3.0
 @export var state: DoorState = DoorState.CLOSED
 @export var interaction_type: InteractionType = InteractionType.NONE
 @export var required_key_id: String = ""
 @export var required_challenge_id: String = ""
+@export var challenge_question: String = "Qual é a resposta correta?"
+@export var challenge_answer: String = "123"
 
 @export var open_angle_degrees: float = 90.0
 @export var open_speed: float = 2.0
@@ -51,6 +55,27 @@ func _ready() -> void:
 		pivot.rotation_degrees = closed_rotation
 	
 	_update_visual_state()
+
+
+func can_interact(player: Node3D) -> bool:
+	if player == null:
+		return false
+	return player.global_position.distance_to(global_position) <= interaction_distance
+
+
+func set_highlight(enabled: bool) -> void:
+	if not door_mesh:
+		return
+	
+	if enabled:
+		var highlight_mat = StandardMaterial3D.new()
+		highlight_mat.albedo_color = Color(1.0, 0.9, 0.3)
+		highlight_mat.emission_enabled = true
+		highlight_mat.emission = Color(1.0, 0.8, 0.2)
+		highlight_mat.emission_energy_multiplier = 0.7
+		door_mesh.set_surface_override_material(0, highlight_mat)
+	else:
+		_update_visual_state()
 
 
 func _update_visual_state() -> void:
@@ -96,7 +121,10 @@ func interact(player: Node3D) -> void:
 		DoorState.LOCKED:
 			_try_unlock(player)
 		DoorState.UNLOCKED, DoorState.CLOSED:
-			_open()
+			if interaction_type == InteractionType.NONE:
+				_open()
+			else:
+				_try_unlock(player)
 		DoorState.OPEN:
 			_close()
 	
@@ -107,12 +135,36 @@ func interact(player: Node3D) -> void:
 func _try_unlock(player: Node3D) -> void:
 	## Tenta destrancar a porta com chave ou desafio
 	var can_unlock = false
+	var has_key = false
+	var challenge_done = false
 	
 	if interaction_type == InteractionType.KEY or interaction_type == InteractionType.BOTH:
-		can_unlock = _has_required_key(player)
+		has_key = _has_required_key(player)
 	
 	if interaction_type == InteractionType.CHALLENGE or interaction_type == InteractionType.BOTH:
-		can_unlock = can_unlock or _has_completed_challenge(player)
+		challenge_done = _has_completed_challenge(player)
+		if not challenge_done:
+			_request_challenge(player)
+			return
+	
+	match interaction_type:
+		InteractionType.KEY:
+			can_unlock = has_key
+		InteractionType.CHALLENGE:
+			can_unlock = challenge_done
+		InteractionType.BOTH:
+			if has_key and challenge_done:
+				can_unlock = true
+			elif not has_key:
+				print("Door: %s precisa da chave %s" % [name, required_key_id])
+				_play_locked_feedback()
+				return
+			else:
+				print("Door: %s precisa concluir o desafio %s" % [name, required_challenge_id])
+				_play_locked_feedback()
+				return
+		_:
+			can_unlock = false
 	
 	if can_unlock:
 		state = DoorState.UNLOCKED
@@ -122,6 +174,35 @@ func _try_unlock(player: Node3D) -> void:
 	else:
 		print("Door: %s trancada. Necessário: %s" % [name, _get_required_text()])
 		_play_locked_feedback()
+
+
+func _request_challenge(player: Node3D) -> void:
+	var manager = get_node_or_null("/root/ChallengeManager")
+	if manager and manager.has_method("show_question"):
+		var prompt_text = challenge_question
+		if prompt_text.is_empty():
+			prompt_text = "Resolva o desafio para abrir a porta."
+		manager.show_question(
+			required_challenge_id,
+			prompt_text,
+			challenge_answer,
+			func() -> void:
+				if player.has_method("complete_challenge"):
+					player.complete_challenge(required_challenge_id)
+				if interaction_type == InteractionType.BOTH and not _has_required_key(player):
+					print("Door: %s concluído, mas a chave ainda é necessária" % name)
+					_play_locked_feedback()
+					return
+				state = DoorState.UNLOCKED
+				_update_visual_state()
+				_open()
+				print("Door: %s liberada após desafio" % name)
+		)
+		print("Door: %s solicitando desafio %s" % [name, required_challenge_id])
+		return
+	
+	print("Door: %s sem framework de desafio disponível" % name)
+	_play_locked_feedback()
 
 
 func _has_required_key(player: Node3D) -> bool:

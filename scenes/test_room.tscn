@@ -1,155 +1,142 @@
-[gd_scene load_steps=32 format=3 uid="uid://dvjorwjfx81et"]
+[gd_scene load_steps=10 format=3 uid="uid://dvjorwjfx81et"]
 
-[ext_resource type="PackedScene" uid="uid://slumqsci0boy" path="res://scenes/player.tscn" id="1_player"]
+[ext_resource type="PackedScene" uid="uid://d1c2k3l4m5n6o7" path="res://scenes/player.tscn" id="1_player"]
 [ext_resource type="PackedScene" uid="uid://b1d2o3o4r5s6t7" path="res://scenes/door.tscn" id="2_door"]
-[ext_resource type="PackedScene" uid="uid://bkso6kt6gh2aq" path="res://assets/modelos/bench.glb" id="3_bench"]
-[ext_resource type="PackedScene" uid="uid://dofbldwlkd3fp" path="res://assets/modelos/bookcaseClosed.glb" id="4_bookcase"]
-[ext_resource type="PackedScene" uid="uid://cyiik2d7g6uj6" path="res://assets/modelos/bookcaseOpen.glb" id="5_bookcase_open"]
-[ext_resource type="PackedScene" uid="uid://cfydk3j66u0d8" path="res://assets/modelos/chair.glb" id="6_chair"]
-[ext_resource type="PackedScene" uid="uid://bk145mnlngx5e" path="res://assets/modelos/chairModernCushion.glb" id="7_chair_modern"]
-[ext_resource type="PackedScene" uid="uid://cvx4gk3ct4tsr" path="res://assets/modelos/table.glb" id="8_table"]
-[ext_resource type="PackedScene" uid="uid://cy7lecp8r6xvi" path="res://assets/modelos/tableCoffee.glb" id="9_table_coffee"]
-[ext_resource type="PackedScene" uid="uid://d4gnxok7ggdxd" path="res://assets/modelos/books.glb" id="10_books"]
-[ext_resource type="PackedScene" uid="uid://bevx0kuy8nmep" path="res://assets/modelos/chairCushion.glb" id="11_chair_cushion"]
-[ext_resource type="PackedScene" uid="uid://bllmv1dbhbn75" path="res://assets/modelos/chairDesk.glb" id="12_chair_desk"]
-[ext_resource type="PackedScene" uid="uid://da2dnp2ipiuj4" path="res://assets/modelos/bookcaseClosedWide.glb" id="13_bookcase_wide"]
-[ext_resource type="PackedScene" uid="uid://bnwt0d6k7c77o" path="res://assets/modelos/bookcaseClosedDoors.glb" id="14_bookcase_doors"]
-[ext_resource type="PackedScene" uid="uid://ysq84fv5cvfp" path="res://assets/modelos/bookcaseOpenLow.glb" id="15_bookcase_low"]
-[ext_resource type="PackedScene" uid="uid://cvq6c7dxixp0t" path="res://assets/modelos/tableCloth.glb" id="16_table_cloth"]
-[ext_resource type="PackedScene" uid="uid://c5euos8haobrc" path="res://assets/modelos/doorwayOpen.glb" id="17_doorway_open"]
+[ext_resource type="PackedScene" uid="uid://5g3s0bulja67" path="res://scenes/key_item.tscn" id="3_key"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_floor_material"]
-albedo_color = Color(0.8, 0.8, 0.8, 1)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_floor"]
+albedo_color = Color(0.85, 0.85, 0.82, 1)
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_floor"]
 size = Vector2(20, 20)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_floor_collision"]
-size = Vector3(20, 0.05, 20)
+[sub_resource type="BoxShape3D" id="BoxShape3D_floor"]
+size = Vector3(20, 0.1, 20)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wall_material"]
-albedo_color = Color(0.2, 0.4, 0.6, 1)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wall"]
+albedo_color = Color(0.17, 0.28, 0.45, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_wall"]
-size = Vector3(20, 10, 1)
+size = Vector3(20, 6, 1)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_wall_collision"]
-size = Vector3(20, 10, 1)
+[sub_resource type="BoxShape3D" id="BoxShape3D_wall"]
+size = Vector3(20, 6, 1)
 
-[node name="TestRoom" type="Node3D" unique_id=1732258103]
+[sub_resource type="BoxMesh" id="BoxMesh_desk_teacher"]
+size = Vector3(3, 0.8, 1.2)
 
-[node name="Floor" type="StaticBody3D" parent="." unique_id=64919389]
+[sub_resource type="BoxShape3D" id="BoxShape3D_desk_teacher"]
+size = Vector3(3, 0.8, 1.2)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor" unique_id=1280047841]
-material_override = SubResource("StandardMaterial3D_floor_material")
+[sub_resource type="BoxMesh" id="BoxMesh_desk_student"]
+size = Vector3(2.5, 0.8, 1.2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_desk_student"]
+size = Vector3(2.5, 0.8, 1.2)
+
+[node name="TestRoom" type="Node3D"]
+
+[node name="Floor" type="StaticBody3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
+material_override = SubResource("StandardMaterial3D_floor")
 mesh = SubResource("PlaneMesh_floor")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor" unique_id=754706664]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.025, 0)
-shape = SubResource("BoxShape3D_floor_collision")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
+shape = SubResource("BoxShape3D_floor")
 
-[node name="Wall1" type="StaticBody3D" parent="." unique_id=546392765]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, -10)
+[node name="WallFront" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -10)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Wall1" unique_id=222138111]
-material_override = SubResource("StandardMaterial3D_wall_material")
+[node name="MeshInstance3D" type="MeshInstance3D" parent="WallFront"]
+material_override = SubResource("StandardMaterial3D_wall")
 mesh = SubResource("BoxMesh_wall")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Wall1" unique_id=1229779950]
-shape = SubResource("BoxShape3D_wall_collision")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WallFront"]
+shape = SubResource("BoxShape3D_wall")
 
-[node name="Wall2" type="StaticBody3D" parent="." unique_id=1503613154]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 10)
+[node name="WallBack" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 10)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Wall2" unique_id=1183427383]
-material_override = SubResource("StandardMaterial3D_wall_material")
+[node name="MeshInstance3D" type="MeshInstance3D" parent="WallBack"]
+material_override = SubResource("StandardMaterial3D_wall")
 mesh = SubResource("BoxMesh_wall")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Wall2" unique_id=2016508461]
-shape = SubResource("BoxShape3D_wall_collision")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WallBack"]
+shape = SubResource("BoxShape3D_wall")
 
-[node name="Wall3" type="StaticBody3D" parent="." unique_id=762672700]
-transform = Transform3D(-3.6199901e-06, 0, 1, 0, 1, 0, -1, 0, -3.6199901e-06, 10, 5, 0)
+[node name="WallLeft" type="StaticBody3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -10, 3, 0)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Wall3" unique_id=228301239]
-material_override = SubResource("StandardMaterial3D_wall_material")
+[node name="MeshInstance3D" type="MeshInstance3D" parent="WallLeft"]
+material_override = SubResource("StandardMaterial3D_wall")
 mesh = SubResource("BoxMesh_wall")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Wall3" unique_id=2055555634]
-shape = SubResource("BoxShape3D_wall_collision")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WallLeft"]
+shape = SubResource("BoxShape3D_wall")
 
-[node name="Wall4" type="StaticBody3D" parent="." unique_id=491197314]
-transform = Transform3D(-3.6199901e-06, 0, 1, 0, 1, 0, -1, 0, -3.6199901e-06, -10, 5, 0)
+[node name="WallRight" type="StaticBody3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 10, 3, 0)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Wall4" unique_id=549134537]
-material_override = SubResource("StandardMaterial3D_wall_material")
+[node name="MeshInstance3D" type="MeshInstance3D" parent="WallRight"]
+material_override = SubResource("StandardMaterial3D_wall")
 mesh = SubResource("BoxMesh_wall")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Wall4" unique_id=1981411158]
-shape = SubResource("BoxShape3D_wall_collision")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WallRight"]
+shape = SubResource("BoxShape3D_wall")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1516326970]
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, 0, 10, 0)
 shadow_enabled = true
 
-[node name="Player" parent="." unique_id=878692567 instance=ExtResource("1_player")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+[node name="Player" parent="." instance=ExtResource("1_player")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 
-[node name="Door1" parent="." instance=ExtResource("2_door")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, -5)
+[node name="DoorMain" parent="." instance=ExtResource("2_door")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -9.2)
+state = 2
+interaction_type = 3
+required_key_id = "school_key"
+required_challenge_id = "room_exit"
+challenge_question = "Qual é a soma de 2 + 2?"
+challenge_answer = "4"
 
-[node name="Door2" parent="." instance=ExtResource("2_door")]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -3, 0, -5)
+[node name="KeyItem" parent="." instance=ExtResource("3_key")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 3)
 
-[node name="bookcaseClosed" parent="." instance=ExtResource("4_bookcase")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.5, 0, -9)
+[node name="DeskTeacher" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -7)
 
-[node name="bookcaseOpen" parent="." instance=ExtResource("5_bookcase_open")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.5, 0, -9)
+[node name="DeskMesh" type="MeshInstance3D" parent="DeskTeacher"]
+mesh = SubResource("BoxMesh_desk_teacher")
 
-[node name="bookcaseClosedWide" parent="." instance=ExtResource("13_bookcase_wide")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.5, 0, -9)
+[node name="DeskCollision" type="CollisionShape3D" parent="DeskTeacher"]
+shape = SubResource("BoxShape3D_desk_teacher")
 
-[node name="bookcaseClosedDoors" parent="." instance=ExtResource("14_bookcase_doors")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5, 0, -9)
+[node name="DeskStudent1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 1)
 
-[node name="bookcaseOpenLow" parent="." instance=ExtResource("15_bookcase_low")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.5, 0, -9)
+[node name="DeskMesh" type="MeshInstance3D" parent="DeskStudent1"]
+mesh = SubResource("BoxMesh_desk_student")
 
-[node name="table" parent="." instance=ExtResource("8_table")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -9)
+[node name="DeskCollision" type="CollisionShape3D" parent="DeskStudent1"]
+shape = SubResource("BoxShape3D_desk_student")
 
-[node name="chair" parent="." instance=ExtResource("6_chair")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -8)
+[node name="DeskStudent2" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
 
-[node name="chairCushion" parent="." instance=ExtResource("11_chair_cushion")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -8)
+[node name="DeskMesh" type="MeshInstance3D" parent="DeskStudent2"]
+mesh = SubResource("BoxMesh_desk_student")
 
-[node name="chairDesk" parent="." instance=ExtResource("12_chair_desk")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -8.5)
+[node name="DeskCollision" type="CollisionShape3D" parent="DeskStudent2"]
+shape = SubResource("BoxShape3D_desk_student")
 
-[node name="tableCloth" parent="." instance=ExtResource("16_table_cloth")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -9)
+[node name="DeskStudent3" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 1)
 
-[node name="sofa_area" type="Node3D" parent="."]
+[node name="DeskMesh" type="MeshInstance3D" parent="DeskStudent3"]
+mesh = SubResource("BoxMesh_desk_student")
 
-[node name="tableCoffee" parent="sofa_area" instance=ExtResource("9_table_coffee")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5)
-
-[node name="chairModern1" parent="sofa_area" instance=ExtResource("7_chair_modern")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 0, 5)
-
-[node name="chairModern2" parent="sofa_area" instance=ExtResource("7_chair_modern")]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 1.5, 0, 5)
-
-[node name="bench" parent="." instance=ExtResource("3_bench")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 2)
-
-[node name="books1" parent="." instance=ExtResource("10_books")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
-
-[node name="doorwayOpen1" parent="." instance=ExtResource("17_doorway_open")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, -6)
-
-[node name="doorwayOpen2" parent="." instance=ExtResource("17_doorway_open")]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 8, 0, -6)
+[node name="DeskCollision" type="CollisionShape3D" parent="DeskStudent3"]
+shape = SubResource("BoxShape3D_desk_student")
