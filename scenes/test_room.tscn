@@ -1,8 +1,11 @@
-[gd_scene load_steps=17 format=3 uid="uid://dvjorwjfx81et"]
+[gd_scene format=3 uid="uid://dvjorwjfx81et"]
 
-[ext_resource type="PackedScene" uid="uid://d1c2k3l4m5n6o7" path="res://scenes/player.tscn" id="1_player"]
-[ext_resource type="PackedScene" uid="uid://b1d2o3o4r5s6t7" path="res://scenes/door.tscn" id="2_door"]
+[ext_resource type="PackedScene" uid="uid://slumqsci0boy" path="res://scenes/player.tscn" id="1_player"]
+[ext_resource type="PackedScene" uid="uid://cexm8uc0or2hq" path="res://scenes/door.tscn" id="2_door"]
 [ext_resource type="PackedScene" uid="uid://5g3s0bulja67" path="res://scenes/key_item.tscn" id="3_key"]
+[ext_resource type="PackedScene" uid="uid://da2dnp2ipiuj4" path="res://assets/modelos/bookcaseClosedWide.glb" id="4_mous7"]
+[ext_resource type="PackedScene" uid="uid://dkvv7tw41cf5w" path="res://assets/modelos/benchCushion.glb" id="5_sg3ht"]
+[ext_resource type="PackedScene" uid="uid://d4gnxok7ggdxd" path="res://assets/modelos/books.glb" id="6_crnqe"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_floor"]
 albedo_color = Color(0.82, 0.77, 0.68, 1)
@@ -28,6 +31,19 @@ size = Vector3(20, 6, 1)
 albedo_color = Color(0.38, 0.24, 0.16, 1)
 roughness = 0.8
 
+[sub_resource type="CylinderMesh" id="CylinderMesh_pot"]
+top_radius = 0.3
+bottom_radius = 0.3
+height = 0.5
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_plant"]
+albedo_color = Color(0.08, 0.42, 0.18, 1)
+roughness = 0.8
+
+[sub_resource type="SphereMesh" id="SphereMesh_plant"]
+radius = 0.42
+height = 0.9
+
 [sub_resource type="BoxMesh" id="BoxMesh_desk_teacher"]
 size = Vector3(3, 0.8, 1.2)
 
@@ -40,81 +56,69 @@ size = Vector3(2.5, 0.8, 1.2)
 [sub_resource type="BoxShape3D" id="BoxShape3D_desk_student"]
 size = Vector3(2.5, 0.8, 1.2)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_plant"]
-albedo_color = Color(0.08, 0.42, 0.18, 1)
-roughness = 0.8
+[node name="TestRoom" type="Node3D" unique_id=1477225511]
 
-[sub_resource type="CylinderMesh" id="CylinderMesh_pot"]
-height = 0.5
-top_radius = 0.3
-bottom_radius = 0.3
+[node name="Floor" type="StaticBody3D" parent="." unique_id=1474031037]
 
-[sub_resource type="SphereMesh" id="SphereMesh_plant"]
-radius = 0.42
-height = 0.9
-
-[node name="TestRoom" type="Node3D"]
-
-[node name="Floor" type="StaticBody3D" parent="."]
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor" unique_id=743613677]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.05631447, 0.062301636, -0.0045781136)
 material_override = SubResource("StandardMaterial3D_floor")
 mesh = SubResource("BoxMesh_floor")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor" unique_id=297940504]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
 shape = SubResource("BoxShape3D_floor")
 
-[node name="WallFront" type="StaticBody3D" parent="."]
+[node name="WallFront" type="StaticBody3D" parent="." unique_id=1426352533]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -10)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="WallFront"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="WallFront" unique_id=230509392]
 material_override = SubResource("StandardMaterial3D_wall")
 mesh = SubResource("BoxMesh_wall")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="WallFront"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WallFront" unique_id=58415570]
 shape = SubResource("BoxShape3D_wall")
 
-[node name="WallBack" type="StaticBody3D" parent="."]
+[node name="WallBack" type="StaticBody3D" parent="." unique_id=1209374682]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 10)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="WallBack"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="WallBack" unique_id=1006015119]
 material_override = SubResource("StandardMaterial3D_wall")
 mesh = SubResource("BoxMesh_wall")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="WallBack"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WallBack" unique_id=62726463]
 shape = SubResource("BoxShape3D_wall")
 
-[node name="WallLeft" type="StaticBody3D" parent="."]
+[node name="WallLeft" type="StaticBody3D" parent="." unique_id=601143780]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -10, 3, 0)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="WallLeft"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="WallLeft" unique_id=596898743]
 material_override = SubResource("StandardMaterial3D_wall")
 mesh = SubResource("BoxMesh_wall")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="WallLeft"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WallLeft" unique_id=648423362]
 shape = SubResource("BoxShape3D_wall")
 
-[node name="WallRight" type="StaticBody3D" parent="."]
+[node name="WallRight" type="StaticBody3D" parent="." unique_id=1366341249]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 10, 3, 0)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="WallRight"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="WallRight" unique_id=567695494]
 material_override = SubResource("StandardMaterial3D_wall")
 mesh = SubResource("BoxMesh_wall")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="WallRight"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WallRight" unique_id=212629282]
 shape = SubResource("BoxShape3D_wall")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=194601781]
 transform = Transform3D(0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, 0, 10, 0)
-shadow_enabled = true
 light_energy = 0.9
+shadow_enabled = true
 
-[node name="Player" parent="." instance=ExtResource("1_player")]
+[node name="Player" parent="." unique_id=63544265 instance=ExtResource("1_player")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 
-[node name="DoorMain" parent="." instance=ExtResource("2_door")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -9.2)
+[node name="DoorMain" parent="." unique_id=923836387 instance=ExtResource("2_door")]
+transform = Transform3D(-0.0039652274, -2.4284937e-11, -1.2963121, -0.008293537, 1.0906769, 2.531714e-05, 1.2976038, 0.006970979, -0.003961119, 9.45526, 0.16227508, -8.063578)
 state = 2
 interaction_type = 3
 required_key_id = "school_key"
@@ -122,69 +126,78 @@ required_challenge_id = "room_exit"
 challenge_question = "Qual é a soma de 2 + 2?"
 challenge_answer = "4"
 
-[node name="KeyItem" parent="." instance=ExtResource("3_key")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0.5, 3)
+[node name="KeyItem" parent="." unique_id=1183647847 instance=ExtResource("3_key")]
+transform = Transform3D(1, 0, 0, 0, 0.9981736, 0.06856391, 0, -0.063878864, 1.0713826, -5.0457077, -0.55212784, 0.94575715)
 
-[node name="PlantLeft" type="StaticBody3D" parent="."]
+[node name="PlantLeft" type="StaticBody3D" parent="." unique_id=1926648209]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.5, 0.2, 7)
 
-[node name="PotMesh" type="MeshInstance3D" parent="PlantLeft"]
+[node name="PotMesh" type="MeshInstance3D" parent="PlantLeft" unique_id=1453177296]
 material_override = SubResource("StandardMaterial3D_darkwood")
 mesh = SubResource("CylinderMesh_pot")
 
-[node name="LeafMesh" type="MeshInstance3D" parent="PlantLeft"]
+[node name="LeafMesh" type="MeshInstance3D" parent="PlantLeft" unique_id=1373088952]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.55, 0)
 material_override = SubResource("StandardMaterial3D_plant")
 mesh = SubResource("SphereMesh_plant")
 
-[node name="PlantRight" type="StaticBody3D" parent="."]
+[node name="PlantRight" type="StaticBody3D" parent="." unique_id=245741559]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.5, 0.2, 7)
 
-[node name="PotMesh" type="MeshInstance3D" parent="PlantRight"]
+[node name="PotMesh" type="MeshInstance3D" parent="PlantRight" unique_id=1157761608]
 material_override = SubResource("StandardMaterial3D_darkwood")
 mesh = SubResource("CylinderMesh_pot")
 
-[node name="LeafMesh" type="MeshInstance3D" parent="PlantRight"]
+[node name="LeafMesh" type="MeshInstance3D" parent="PlantRight" unique_id=1333265853]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.55, 0)
 material_override = SubResource("StandardMaterial3D_plant")
 mesh = SubResource("SphereMesh_plant")
 
-[node name="DeskTeacher" type="StaticBody3D" parent="."]
+[node name="DeskTeacher" type="StaticBody3D" parent="." unique_id=277375896]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -7)
 
-[node name="DeskMesh" type="MeshInstance3D" parent="DeskTeacher"]
+[node name="DeskMesh" type="MeshInstance3D" parent="DeskTeacher" unique_id=562368343]
 material_override = SubResource("StandardMaterial3D_darkwood")
 mesh = SubResource("BoxMesh_desk_teacher")
 
-[node name="DeskCollision" type="CollisionShape3D" parent="DeskTeacher"]
+[node name="DeskCollision" type="CollisionShape3D" parent="DeskTeacher" unique_id=800509675]
 shape = SubResource("BoxShape3D_desk_teacher")
 
-[node name="DeskStudent1" type="StaticBody3D" parent="."]
+[node name="DeskStudent1" type="StaticBody3D" parent="." unique_id=761580324]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 1)
 
-[node name="DeskMesh" type="MeshInstance3D" parent="DeskStudent1"]
+[node name="DeskMesh" type="MeshInstance3D" parent="DeskStudent1" unique_id=25867769]
 material_override = SubResource("StandardMaterial3D_darkwood")
 mesh = SubResource("BoxMesh_desk_student")
 
-[node name="DeskCollision" type="CollisionShape3D" parent="DeskStudent1"]
+[node name="DeskCollision" type="CollisionShape3D" parent="DeskStudent1" unique_id=1812649347]
 shape = SubResource("BoxShape3D_desk_student")
 
-[node name="DeskStudent2" type="StaticBody3D" parent="."]
+[node name="DeskStudent2" type="StaticBody3D" parent="." unique_id=438622482]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
 
-[node name="DeskMesh" type="MeshInstance3D" parent="DeskStudent2"]
+[node name="DeskMesh" type="MeshInstance3D" parent="DeskStudent2" unique_id=1666333302]
 material_override = SubResource("StandardMaterial3D_darkwood")
 mesh = SubResource("BoxMesh_desk_student")
 
-[node name="DeskCollision" type="CollisionShape3D" parent="DeskStudent2"]
+[node name="DeskCollision" type="CollisionShape3D" parent="DeskStudent2" unique_id=1598517666]
 shape = SubResource("BoxShape3D_desk_student")
 
-[node name="DeskStudent3" type="StaticBody3D" parent="."]
+[node name="DeskStudent3" type="StaticBody3D" parent="." unique_id=985905478]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 1)
 
-[node name="DeskMesh" type="MeshInstance3D" parent="DeskStudent3"]
+[node name="DeskMesh" type="MeshInstance3D" parent="DeskStudent3" unique_id=895857733]
 material_override = SubResource("StandardMaterial3D_darkwood")
 mesh = SubResource("BoxMesh_desk_student")
 
-[node name="DeskCollision" type="CollisionShape3D" parent="DeskStudent3"]
+[node name="DeskCollision" type="CollisionShape3D" parent="DeskStudent3" unique_id=562206293]
 shape = SubResource("BoxShape3D_desk_student")
+
+[node name="bookcaseClosedWide" parent="DeskStudent3" unique_id=1292440874 instance=ExtResource("4_mous7")]
+transform = Transform3D(1.3984972, 0, 0, 0, 1.1802531, 0, 0, 0, 1, -8.849374, 0.16563272, -10.204421)
+
+[node name="benchCushion" parent="DeskStudent3" unique_id=1494078273 instance=ExtResource("5_sg3ht")]
+transform = Transform3D(1.71612, 0, 0, 0, 1.9644164, 0, 0, 0, 2.2526262, -4.3232727, 0, -8.815657)
+
+[node name="books" parent="DeskStudent3/benchCushion" unique_id=1582978414 instance=ExtResource("6_crnqe")]
+transform = Transform3D(0.8362735, 0, 0.5483126, 0, 0.9650107, 0, -0.54831266, 0, 0.8362741, -2.5525281, 0.41727316, -0.5975766)
